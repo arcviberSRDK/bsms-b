@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>தமிழுயிர்ச் செழிழ்கள் (TC)</title>
+
+  <!-- Google Fonts: Regal Tamil Serif (Noto Serif Tamil), Classic Display (Cinzel), and Clean UI (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600&family=Noto+Serif+Tamil:wght@600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* =========================================================================
+       DESIGN TOKENS & FULL-VIEWPORT STAGE LOCK
+       ========================================================================= */
+    :root {
+      --velvet-deepest: #240105;
+      --velvet-dark: #4c030b;
+      --velvet-mid: #7d0614;
+      --velvet-bright: #a60c1d;
+      --velvet-sheen: #cc1d32;
+      --gold-ivory: #fff8df;
+      --gold-bright: #f8d47c;
+      --gold-mid: #d39c34;
+      --gold-bronze: #8a5a10;
+      --stage-midnight: #0c132b;
+      --stage-obsidian: #03040a;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background-color: var(--stage-obsidian);
+      font-family: 'Inter', 'Noto Serif Tamil', system-ui, -apple-system, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+    }
+
+    /* =========================================================================
+       GRAND DARK THEATER STAGE & VOLUMETRIC SPOTLIGHTS
+       ========================================================================= */
+    .theater-stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      touch-action: none;
+      background:
+        radial-gradient(ellipse 68% 58% at 50% 48%, rgba(218, 165, 56, 0.18) 0%, rgba(218, 165, 56, 0.05) 42%, transparent 74%),
+        radial-gradient(ellipse 92% 86% at 50% 44%, #131c3d 0%, #070b1a 54%, #020308 100%);
+    }
+
+    .stage-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 48%, transparent 32%, rgba(0, 0, 0, 0.76) 100%);
+    }
+
+    /* Warm Sweeping Volumetric Spotlights */
+    .spotlight-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.7;
+      transition: opacity 1.5s ease;
+    }
+
+    .theater-stage.is-open .spotlight-layer {
+      opacity: 1;
+    }
+
+    .spotlight-beam {
+      position: absolute;
+      top: -14vh;
+      width: 50vw;
+      max-width: 820px;
+      min-width: 240px;
+      height: 138vh;
+      transform-origin: 50% 0%;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 242, 198, 0.30) 0%,
+        rgba(248, 212, 124, 0.15) 38%,
+        rgba(211, 156, 52, 0.04) 72%,
+        transparent 100%
+      );
+      clip-path: polygon(44% 0%, 56% 0%, 100% 100%, 0% 100%);
+      filter: blur(20px);
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+    }
+
+    .spotlight-left {
+      left: -5vw;
+      animation: sweepBeamLeft 9.2s ease-in-out infinite alternate;
+    }
+
+    .spotlight-right {
+      right: -5vw;
+      animation: sweepBeamRight 10.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes sweepBeamLeft {
+      0% { transform: rotate(-29deg); opacity: 0.62; }
+      50% { transform: rotate(-15deg); opacity: 0.94; }
+      100% { transform: rotate(-24deg); opacity: 0.76; }
+    }
+
+    @keyframes sweepBeamRight {
+      0% { transform: rotate(29deg); opacity: 0.62; }
+      50% { transform: rotate(14deg); opacity: 0.96; }
+      100% { transform: rotate(24deg); opacity: 0.76; }
+    }
+
+    /* Warm Polished Theater Floor & Footlight Horizon */
+    .stage-floor {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 13vh;
+      min-height: 54px;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 56% 85% at 50% 0%, rgba(248, 212, 124, 0.22) 0%, rgba(211, 156, 52, 0.06) 48%, transparent 78%),
+        linear-gradient(180deg, rgba(16, 11, 9, 0) 0%, rgba(14, 9, 7, 0.78) 34%, #060404 100%);
+      border-top: 1px solid rgba(248, 212, 124, 0.1);
+    }
+
+    .stage-floor::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 14%;
+      right: 14%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 224, 140, 0.4), transparent);
+      filter: blur(1px);
+    }
+
+    /* =========================================================================
+       CENTER STAGE BATCH NAME & METALLIC-GOLD (TC) EMBLEM
+       ========================================================================= */
+    .reveal-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(20px, 4.5vw, 60px);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    /* Rotating Sunburst Light Aura behind Batch Title */
+    .title-aura {
+      position: absolute;
+      width: min(86vw, 760px);
+      height: min(86vw, 760px);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.55);
+      transition:
+        opacity 1.8s ease 0.25s,
+        transform 2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    }
+
+    .theater-stage.is-open .title-aura {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .title-aura::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-conic-gradient(
+        from 0deg,
+        rgba(248, 212, 124, 0.12) 0deg 6deg,
+        transparent 6deg 20deg
+      );
+      mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.28) 46%, transparent 72%);
+      -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.28) 46%, transparent 72%);
+      animation: rotateRays 38s linear infinite;
+    }
+
+    .title-aura::after {
+      content: '';
+      position: absolute;
+      inset: 17%;
+      border-radius: 50%;
+      border: 1px solid rgba(248, 212, 124, 0.22);
+      box-shadow:
+        0 0 70px rgba(248, 212, 124, 0.22),
+        inset 0 0 46px rgba(248, 212, 124, 0.12);
+      animation: pulseHalo 4.8s ease-in-out infinite;
+    }
+
+    @keyframes rotateRays {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulseHalo {
+      0%, 100% { transform: scale(0.96); opacity: 0.55; }
+      50% { transform: scale(1.04); opacity: 0.96; }
+    }
+
+    /* Animated Title Block */
+    .reveal-content {
+      position: relative;
+      z-index: 2;
+      max-width: min(92vw, 1220px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: scale(0.84) translateY(22px);
+      filter: blur(8px);
+      transition:
+        opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.35s,
+        transform 1.7s cubic-bezier(0.16, 1, 0.3, 1) 0.28s,
+        filter 1.3s ease 0.3s;
+      will-change: transform, opacity, filter;
+    }
+
+    .theater-stage.is-open .reveal-content {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0px);
+    }
+
+    /* Regal Crown / Star Flourish */
+    .crest-emblem {
+      width: clamp(50px, 6.8vw, 84px);
+      height: auto;
+      margin-bottom: clamp(8px, 1.8vh, 18px);
+      filter: drop-shadow(0 0 16px rgba(248, 212, 124, 0.55));
+      opacity: 0.94;
+    }
+
+    /* Crisp Regal Tamil Batch Title */
+    .batch-title-tamil {
+      font-family: 'Noto Serif Tamil', 'Latha', 'Vijaya', Georgia, serif;
+      font-weight: 800;
+      font-size: clamp(1.75rem, 5.7vw, 5.15rem);
+      line-height: 1.52;
+      letter-spacing: 0.015em;
+      /* Generous padding prevents vertical clipping on Tamil upper/lower vowel glyphs */
+      padding: 0.22em 0.16em;
+      margin: 0;
+      word-break: keep-all;
+      text-wrap: balance;
+      background: linear-gradient(
+        112deg,
+        #cfa036 0%,
+        #fffaf0 22%,
+        #f7cf68 40%,
+        #ffffff 50%,
+        #eab949 62%,
+        #fff5d1 80%,
+        #c28a24 100%
+      );
+      background-size: 240% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter:
+        drop-shadow(0 5px 14px rgba(0, 0, 0, 0.88))
+        drop-shadow(0 0 28px rgba(248, 212, 124, 0.44));
+      animation: goldShimmer 6.5s linear infinite;
+    }
+
+    @keyframes goldShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 240% center; }
+    }
+
+    /* Ornamental Divider Row */
+    .title-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 2vw, 20px);
+      width: min(72vw, 430px);
+      margin: clamp(4px, 1.4vh, 14px) 0 clamp(10px, 2vh, 20px);
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, rgba(248, 212, 124, 0.88), transparent);
+      box-shadow: 0 0 10px rgba(248, 212, 124, 0.48);
+    }
+
+    .divider-diamond {
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(135deg, #fff9e3, #d39c34);
+      transform: rotate(45deg);
+      box-shadow: 0 0 14px rgba(248, 212, 124, 0.92);
+      flex-shrink: 0;
+    }
+
+    /* Elegant Metallic-Gold Emblem Badge for (TC) */
+    .tc-badge-outer {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #8a5a10 0%, #fff3c7 30%, #d39c34 55%, #fff6d9 80%, #8a5a10 100%);
+      box-shadow:
+        0 10px 34px rgba(0, 0, 0, 0.65),
+        0 0 26px rgba(248, 212, 124, 0.28);
+    }
+
+    .tc-badge-inner {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 1.8vw, 18px);
+      padding: clamp(6px, 1vw, 11px) clamp(24px, 3.8vw, 46px);
+      border-radius: 999px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(248, 212, 124, 0.18), transparent 68%),
+        linear-gradient(180deg, rgba(16, 20, 42, 0.92), rgba(7, 9, 20, 0.96));
+      box-shadow: inset 0 1px 1px rgba(255, 246, 214, 0.25);
+    }
+
+    .tc-badge-star {
+      width: clamp(9px, 1.2vw, 13px);
+      height: clamp(9px, 1.2vw, 13px);
+      opacity: 0.85;
+      flex-shrink: 0;
+    }
+
+    .batch-subtitle-tc {
+      font-family: 'Cinzel', Georgia, serif;
+      font-weight: 800;
+      font-size: clamp(1.25rem, 3.2vw, 2.7rem);
+      letter-spacing: 0.28em;
+      padding-left: 0.28em; /* Optical centering to offset letter-spacing */
+      margin: 0;
+      line-height: 1.15;
+      background: linear-gradient(180deg, #fffbe8 0%, #f6ce68 52%, #b57b1b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 2px 10px rgba(248, 212, 124, 0.45));
+    }
+
+    /* =========================================================================
+       DEEP CRIMSON PLEATED VELVET CURTAINS (LEFT & RIGHT PANELS)
+       ========================================================================= */
+    .curtains-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .curtain-panel {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 51.5vw;
+      will-change: transform;
+      background-color: var(--velvet-mid);
+      background-image:
+        /* Top-to-bottom theatrical ambient lighting */
+        linear-gradient(
+          180deg,
+          rgba(12, 0, 2, 0.66) 0%,
+          rgba(12, 0, 2, 0.08) 20%,
+          rgba(12, 0, 2, 0.16) 76%,
+          rgba(12, 0, 2, 0.68) 100%
+        ),
+        /* Primary deep velvet drapery pleats */
+        repeating-linear-gradient(
+          90deg,
+          rgba(26, 1, 4, 0.82) 0px,
+          rgba(116, 8, 20, 0.24) 18px,
+          rgba(214, 44, 64, 0.22) 34px,
+          rgba(148, 12, 26, 0.26) 52px,
+          rgba(30, 1, 5, 0.84) 74px,
+          rgba(124, 10, 22, 0.20) 92px,
+          rgba(198, 34, 52, 0.19) 110px,
+          rgba(24, 1, 4, 0.80) 132px
+        ),
+        /* Secondary fine fabric folds */
+        repeating-linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.34) 0px,
+          transparent 14px,
+          rgba(255, 138, 152, 0.07) 26px,
+          rgba(0, 0, 0, 0.38) 44px
+        ),
+        /* Base crimson velvet tone */
+        linear-gradient(180deg, #5c040d 0%, #8f0818 46%, #64040e 100%);
+      box-shadow: inset 0 0 92px rgba(0, 0, 0, 0.64);
+    }
+
+    .curtain-left {
+      left: 0;
+      transform-origin: left top;
+      border-right: 2px solid rgba(24, 0, 3, 0.88);
+      box-shadow:
+        inset -22px 0 38px rgba(0, 0, 0, 0.62),
+        12px 0 42px rgba(0, 0, 0, 0.78);
+    }
+
+    .curtain-right {
+      right: 0;
+      transform-origin: right top;
+      border-left: 2px solid rgba(24, 0, 3, 0.88);
+      box-shadow:
+        inset 22px 0 38px rgba(0, 0, 0, 0.62),
+        -12px 0 42px rgba(0, 0, 0, 0.78);
+    }
+
+    /* Smooth animated transitions for open, close, and elastic spring-back */
+    .curtain-panel.animating-open {
+      transition: transform 2.15s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .curtain-panel.animating-close {
+      transition: transform 1.25s cubic-bezier(0.45, 0.05, 0.25, 1);
+    }
+
+    .curtain-panel.animating-spring {
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Gold Embroidered Border Trim & Fringe along bottom of curtains */
+    .curtain-gold-trim {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: clamp(20px, 3.2vh, 34px);
+      background:
+        linear-gradient(
+          180deg,
+          #6e4407 0%,
+          #f8d67e 18%,
+          #b87f1e 38%,
+          #ffecae 52%,
+          #8b5910 70%,
+          transparent 72%
+        ),
+        repeating-linear-gradient(
+          90deg,
+          #d4a038 0px,
+          #f8dc8c 3px,
+          #754c0b 5px,
+          transparent 7px
+        );
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.56);
+      opacity: 0.95;
+    }
+
+    /* Vertical gold piping along center meeting seam */
+    .curtain-left::after,
+    .curtain-right::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: clamp(18px, 3vh, 32px);
+      width: 5px;
+      background: linear-gradient(180deg, #8b5b10, #f7d57c 30%, #c48c25 65%, #f5cf70 88%, #7c500d);
+      opacity: 0.68;
+    }
+
+    .curtain-left::after { right: 0; }
+    .curtain-right::after { left: 0; }
+
+    /* =========================================================================
+       ORNATE SCALLOPED TOP VALANCE (PELMET)
+       ========================================================================= */
+    .valance-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: clamp(54px, 11vh, 118px);
+      z-index: 30;
+      pointer-events: none;
+      filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.8));
+    }
+
+    .valance-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* =========================================================================
+       INTERACTIVE BRAIDED GOLDEN SILK PULL-ROPE & WEIGHTED TASSEL
+       ========================================================================= */
+    .rope-anchor {
+      position: absolute;
+      top: -120px; /* Extra cord concealed behind valance for realistic pull extension */
+      right: clamp(16px, 6.2vw, 78px);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: grab;
+      touch-action: none;
+      will-change: transform, opacity;
+      transform-origin: 50% 0%;
+      transition: opacity 0.8s ease;
+    }
+
+    .rope-anchor:active {
+      cursor: grabbing;
+    }
+
+    .rope-anchor.spring-back {
+      transition: transform 0.62s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .rope-anchor.auto-pulling {
+      transition: transform 0.52s cubic-bezier(0.32, 0, 0.67, 0);
+    }
+
+    .rope-anchor.is-retracted {
+      pointer-events: none;
+      opacity: 0;
+      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease 0.25s;
+    }
+
+    /* Generous interactive hit area for effortless touch and mouse grabbing */
+    .rope-hit-area {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 28px 34px 28px;
+      outline: none;
+      touch-action: none;
+    }
+
+    .rope-hit-area:focus-visible .tassel-svg {
+      filter: drop-shadow(0 0 18px rgba(255, 224, 130, 0.96));
+    }
+
+    /* Braided Golden Silk Cord */
+    .golden-cord {
+      width: 13px;
+      height: clamp(260px, 43vh, 420px);
+      border-radius: 6px;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255, 245, 200, 0.88) 0px,
+          rgba(218, 165, 52, 0.96) 4px,
+          rgba(116, 70, 10, 0.96) 8px,
+          rgba(246, 208, 112, 0.94) 12px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 238, 175, 0.45) 0px,
+          rgba(120, 72, 12, 0.56) 6px,
+          rgba(232, 184, 72, 0.52) 12px
+        );
+      box-shadow:
+        inset 2px 0 3px rgba(255, 250, 220, 0.68),
+        inset -2px 0 4px rgba(80, 45, 5, 0.85),
+        4px 8px 18px rgba(0, 0, 0, 0.65);
+    }
+
+    /* Weighted Decorative Gold Tassel */
+    .tassel-wrapper {
+      margin-top: -4px;
+      transform-origin: 50% 4px;
+      animation: gentleTasselSway 3.8s ease-in-out infinite;
+    }
+
+    .rope-anchor.is-dragging .tassel-wrapper {
+      animation: none;
+    }
+
+    @keyframes gentleTasselSway {
+      0%, 100% { transform: rotate(-1.9deg); }
+      50% { transform: rotate(1.9deg); }
+    }
+
+    .tassel-svg {
+      width: clamp(44px, 5.4vw, 60px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.74));
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .rope-hit-area:hover .tassel-svg {
+      transform: scale(1.05);
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 14px rgba(248, 212, 124, 0.52));
+    }
+
+    /* Subtle Pulsing "Pull the rope" Hint Pill near Tassel */
+    .pull-prompt {
+      position: absolute;
+      top: calc(100% - 134px);
+      right: calc(100% - 10px);
+      width: max-content;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(14, 6, 8, 0.76);
+      border: 1px solid rgba(248, 212, 124, 0.48);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.62), 0 0 18px rgba(248, 212, 124, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #fff4d6;
+      font-size: clamp(0.8rem, 1.5vw, 0.92rem);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      animation: promptPulse 2.4s ease-in-out infinite;
+    }
+
+    .pull-prompt.is-hidden {
+      opacity: 0 !important;
+      transform: translateY(8px) scale(0.95);
+      animation: none;
+    }
+
+    .pull-prompt-arrow {
+      display: inline-flex;
+      color: #f8d47c;
+      animation: arrowBounce 1.4s ease-in-out infinite;
+    }
+
+    @keyframes promptPulse {
+      0%, 100% {
+        opacity: 0.82;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.56), 0 0 12px rgba(248, 212, 124, 0.18);
+      }
+      50% {
+        opacity: 1;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.68), 0 0 22px rgba(248, 212, 124, 0.44);
+      }
+    }
+
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateY(-2px); }
+      50% { transform: translateY(4px); }
+    }
+
+    /* Live Pull Threshold Bar below Tassel while Dragging */
+    .pull-meter {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .rope-anchor.is-dragging .pull-meter {
+      opacity: 1;
+    }
+
+    .pull-meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #d39c34, #fff4cc);
+      border-radius: 999px;
+    }
+
+    /* =========================================================================
+       RESPONSIVE TUNING FOR MOBILE PORTRAIT & MOBILE LANDSCAPE
+       ========================================================================= */
+    @media (max-width: 640px) {
+      .pull-prompt {
+        right: calc(100% - 14px);
+        padding: 8px 13px;
+        font-size: 0.8rem;
+      }
+      .golden-cord {
+        width: 11px;
+        height: clamp(220px, 39vh, 330px);
+      }
+    }
+
+    @media (max-height: 520px) {
+      .valance-container {
+        height: clamp(44px, 12vh, 66px);
+      }
+      .golden-cord {
+        height: clamp(165px, 34vh, 220px);
+        width: 10px;
+      }
+      .tassel-svg {
+        width: 38px;
+      }
+      .pull-prompt {
+        top: calc(100% - 108px);
+        padding: 7px 12px;
+        font-size: 0.76rem;
+      }
+      .crest-emblem {
+        width: 44px;
+        margin-bottom: 6px;
+      }
+      .batch-title-tamil {
+        font-size: clamp(1.55rem, 6.2vh, 2.8rem);
+      }
+      .title-divider {
+        margin: 4px 0 8px;
+      }
+      .batch-subtitle-tc {
+        font-size: clamp(1.05rem, 4.4vh, 1.7rem);
+      }
+    }
+
+    /* =========================================================================
+       CANVAS PARTICLE LAYERS
+       ========================================================================= */
+    .particle-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    #ambient-canvas {
+      z-index: 4;
+    }
+
+    #celebration-canvas {
+      z-index: 35;
+    }
+
+    /* =========================================================================
+       DISCREET BOTTOM-RIGHT PRESENTATION CONTROLS
+       ========================================================================= */
+    .utility-controls {
+      position: fixed;
+      right: clamp(12px, 2vw, 24px);
+      bottom: clamp(12px, 2vh, 22px);
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.3;
+      transition: opacity 0.35s ease;
+    }
+
+    .utility-controls:hover,
+    .utility-controls:focus-within {
+      opacity: 1;
+    }
+
+    @media (hover: none) {
+      .utility-controls {
+        opacity: 0.52;
+      }
+      .utility-controls:active {
+        opacity: 1;
+      }
+    }
+
+    .glass-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 40px;
+      min-width: 40px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(10, 12, 22, 0.58);
+      border: 1px solid rgba(248, 212, 124, 0.34);
+      color: #f9e6b3;
+      font-size: 0.8rem;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease,
+        opacity 0.35s ease;
+    }
+
+    .glass-btn:hover {
+      background: rgba(28, 23, 16, 0.86);
+      border-color: rgba(248, 212, 124, 0.76);
+      color: #fff9e5;
+      transform: translateY(-1px);
+    }
+
+    .glass-btn:active {
+      transform: scale(0.95);
+    }
+
+    .glass-btn.is-hidden {
+      display: none;
+    }
+
+    /* Non-intrusive Status Toast (replaces browser alert boxes) */
+    .stage-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(16px);
+      z-index: 70;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: rgba(10, 12, 22, 0.88);
+      border: 1px solid rgba(248, 212, 124, 0.48);
+      color: #fff4d6;
+      font-size: 0.82rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .stage-toast.is-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =======================================================================
+       GRAND THEATER STAGE
+       ======================================================================= -->
+  <main id="theaterStage" class="theater-stage" aria-label="Grand Theater Curtain Reveal Stage">
+
+    <!-- Sweeping Volumetric Spotlights -->
+    <div class="spotlight-layer" aria-hidden="true">
+      <div class="spotlight-beam spotlight-left"></div>
+      <div class="spotlight-beam spotlight-right"></div>
+    </div>
+
+    <!-- Ambient Stage Depth Vignette & Stage Floor Glow -->
+    <div class="stage-vignette" aria-hidden="true"></div>
+    <div class="stage-floor" aria-hidden="true"></div>
+
+    <!-- Background Particle Canvas: Floating Golden Dust Motes -->
+    <canvas id="ambient-canvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+    <!-- Center Stage Batch Name Reveal -->
+    <section class="reveal-stage" aria-live="polite">
+      <div class="title-aura" aria-hidden="true"></div>
+
+      <div id="revealContent" class="reveal-content">
+        <!-- Regal Ornamental Flourish Emblem -->
+        <svg class="crest-emblem" viewBox="0 0 120 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="crestGold" x1="0" y1="0" x2="120" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#b8811d" />
+              <stop offset="35%" stop-color="#fff4cc" />
+              <stop offset="55%" stop-color="#f5c95e" />
+              <stop offset="100%" stop-color="#9e6b14" />
+            </linearGradient>
+          </defs>
+          <path d="M60 4L66.5 16.5L80 18.5L69.5 27L72 40L60 33.5L48 40L50.5 27L40 18.5L53.5 16.5L60 4Z" fill="url(#crestGold)" />
+          <path d="M8 26C20 26 28 16 39 20C31 24 27 32 16 32C12 32 9 29 8 26Z" fill="url(#crestGold)" opacity="0.86" />
+          <path d="M112 26C100 26 92 16 81 20C89 24 93 32 104 32C108 32 111 29 112 26Z" fill="url(#crestGold)" opacity="0.86" />
+        </svg>
+
+        <!-- Primary Regal Tamil Batch Name -->
+        <h1 class="batch-title-tamil">தமிழுயிர்ச் செழிழ்கள்</h1>
+
+        <!-- Ornamental Golden Divider -->
+        <div class="title-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-diamond"></span>
+          <span class="divider-line"></span>
+        </div>
+
+        <!-- Metallic-Gold Emblem Badge for (TC) -->
+        <div class="tc-badge-outer">
+          <div class="tc-badge-inner">
+            <svg class="tc-badge-star" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#f8d47c" />
+            </svg>
+            <p class="batch-subtitle-tc">(TC)</p>
+            <svg class="tc-badge-star" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#f8d47c" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Left & Right Crimson Pleated Velvet Curtains -->
+    <div class="curtains-layer" aria-hidden="true">
+      <div id="curtainLeft" class="curtain-panel curtain-left">
+        <div class="curtain-gold-trim"></div>
+      </div>
+      <div id="curtainRight" class="curtain-panel curtain-right">
+        <div class="curtain-gold-trim"></div>
+      </div>
+    </div>
+
+    <!-- Ornate Scalloped Velvet Top Valance (Pelmet) -->
+    <div class="valance-container" aria-hidden="true">
+      <svg class="valance-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="valanceVelvet" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2b0106" />
+            <stop offset="36%" stop-color="#7f0615" />
+            <stop offset="74%" stop-color="#58030c" />
+            <stop offset="100%" stop-color="#300106" />
+          </linearGradient>
+
+          <pattern id="valancePleats" width="48" height="120" patternUnits="userSpaceOnUse">
+            <rect width="48" height="120" fill="url(#valanceVelvet)" />
+            <rect x="0" y="0" width="12" height="120" fill="rgba(0,0,0,0.34)" />
+            <rect x="18" y="0" width="10" height="120" fill="rgba(225,46,66,0.16)" />
+            <rect x="36" y="0" width="12" height="120" fill="rgba(0,0,0,0.28)" />
+          </pattern>
+
+          <linearGradient id="valanceGold" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#8c5c12" />
+            <stop offset="20%" stop-color="#f8d680" />
+            <stop offset="40%" stop-color="#ba8220" />
+            <stop offset="55%" stop-color="#fff0bc" />
+            <stop offset="75%" stop-color="#c28922" />
+            <stop offset="90%" stop-color="#f8d680" />
+            <stop offset="100%" stop-color="#8c5c12" />
+          </linearGradient>
+        </defs>
+
+        <!-- Scalloped Velvet Swags -->
+        <path
+          d="M 0,0 L 1440,0 L 1440,68
+             Q 1350,114 1260,68
+             Q 1170,114 1080,68
+             Q 990,114 900,68
+             Q 810,114 720,68
+             Q 630,114 540,68
+             Q 450,114 360,68
+             Q 270,114 180,68
+             Q 90,114 0,68 Z"
+          fill="url(#valancePleats)"
+        />
+
+        <!-- Gold Embroidered Trim Curve -->
+        <path
+          d="M 0,68
+             Q 90,114 180,68
+             Q 270,114 360,68
+             Q 450,114 540,68
+             Q 630,114 720,68
+             Q 810,114 900,68
+             Q 990,114 1080,68
+             Q 1170,114 1260,68
+             Q 1350,114 1440,68"
+          fill="none"
+          stroke="url(#valanceGold)"
+          stroke-width="6.5"
+          stroke-linecap="round"
+        />
+
+        <!-- Gold Fringe Accent Line -->
+        <path
+          d="M 0,76
+             Q 90,122 180,76
+             Q 270,122 360,76
+             Q 450,122 540,76
+             Q 630,122 720,76
+             Q 810,122 900,76
+             Q 990,122 1080,76
+             Q 1170,122 1260,76
+             Q 1350,122 1440,76"
+          fill="none"
+          stroke="url(#valanceGold)"
+          stroke-width="4"
+          stroke-dasharray="3 6"
+          opacity="0.88"
+        />
+
+        <!-- Gold Swag Medallions -->
+        <g fill="url(#valanceGold)">
+          <circle cx="180" cy="70" r="5" />
+          <circle cx="360" cy="70" r="5" />
+          <circle cx="540" cy="70" r="5" />
+          <circle cx="720" cy="70" r="5.5" />
+          <circle cx="900" cy="70" r="5" />
+          <circle cx="1080" cy="70" r="5" />
+          <circle cx="1260" cy="70" r="5" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- Foreground Particle Canvas: Golden Sparkle & Confetti Burst -->
+    <canvas id="celebration-canvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+    <!-- Interactive Braided Golden Silk Pull-Rope & Weighted Tassel -->
+    <div id="ropeAnchor" class="rope-anchor">
+      <div
+        id="ropeHitArea"
+        class="rope-hit-area"
+        role="button"
+        tabindex="0"
+        aria-label="Pull the rope down or press Enter to unveil the batch name"
+      >
+        <!-- Braided Silk Cord -->
+        <div class="golden-cord"></div>
+
+        <!-- Weighted Decorative Gold Tassel -->
+        <div id="tasselWrapper" class="tassel-wrapper">
+          <svg class="tassel-svg" viewBox="0 0 80 148" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="goldKnob" x1="16" y1="0" x2="64" y2="54" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8b590f" />
+                <stop offset="28%" stop-color="#fff2bd" />
+                <stop offset="52%" stop-color="#dfa736" />
+                <stop offset="78%" stop-color="#8a570e" />
+                <stop offset="100%" stop-color="#f6d57a" />
+              </linearGradient>
+              <linearGradient id="tasselSkirt" x1="18" y1="54" x2="62" y2="144" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#9e6a15" />
+                <stop offset="24%" stop-color="#fce295" />
+                <stop offset="48%" stop-color="#d49b2d" />
+                <stop offset="72%" stop-color="#fff0bd" />
+                <stop offset="100%" stop-color="#7c4e0a" />
+              </linearGradient>
+              <linearGradient id="ringBand" x1="20" y1="0" x2="60" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6e4306" />
+                <stop offset="45%" stop-color="#fff5cc" />
+                <stop offset="100%" stop-color="#7a4c09" />
+              </linearGradient>
+            </defs>
+
+            <!-- Upper Collar Ring -->
+            <rect x="27" y="2" width="26" height="9" rx="4.5" fill="url(#ringBand)" />
+
+            <!-- Sculpted Braided Crown Knot -->
+            <ellipse cx="40" cy="24" rx="18" ry="15" fill="url(#goldKnob)" />
+            <path d="M24 19C32 24 48 24 56 19" stroke="#6c4206" stroke-width="2" opacity="0.55" />
+            <path d="M23 26C32 31 48 31 57 26" stroke="#fff7d6" stroke-width="1.5" opacity="0.55" />
+
+            <!-- Decorative Neck Rings -->
+            <rect x="25" y="38" width="30" height="8" rx="4" fill="url(#ringBand)" />
+            <rect x="23" y="46" width="34" height="7" rx="3.5" fill="url(#goldKnob)" />
+
+            <!-- Flowing Weighted Golden Silk Skirt -->
+            <path
+              d="M25 53 L55 53 L64 134 C64 139 58 144 40 144 C22 144 16 139 16 134 Z"
+              fill="url(#tasselSkirt)"
+            />
+
+            <!-- Individual Silk Strand Depth Lines -->
+            <g stroke="#6c4208" stroke-width="1.5" opacity="0.55" stroke-linecap="round">
+              <line x1="28" y1="56" x2="22" y2="138" />
+              <line x1="33" y1="56" x2="29" y2="141" />
+              <line x1="38" y1="56" x2="36" y2="142" />
+              <line x1="43" y1="56" x2="44" y2="142" />
+              <line x1="48" y1="56" x2="51" y2="141" />
+              <line x1="53" y1="56" x2="58" y2="138" />
+            </g>
+
+            <!-- Specular Gold Thread Highlights -->
+            <g stroke="#fff8dc" stroke-width="1.3" opacity="0.62" stroke-linecap="round">
+              <line x1="31" y1="60" x2="26" y2="134" />
+              <line x1="41" y1="58" x2="40" y2="136" />
+              <line x1="50" y1="60" x2="54" y2="134" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Live Pull Progress Indicator -->
+        <div class="pull-meter" aria-hidden="true">
+          <div id="pullMeterFill" class="pull-meter-fill"></div>
+        </div>
+      </div>
+
+      <!-- Subtle Pulsing Hint near Tassel -->
+      <div id="pullPrompt" class="pull-prompt" aria-hidden="true">
+        <span>Pull the rope</span>
+        <span class="pull-prompt-arrow">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14"></path>
+            <path d="m19 12-7 7-7-7"></path>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </main>
+
+  <!-- =======================================================================
+       DISCREET BOTTOM-RIGHT PRESENTATION CONTROLS
+       ======================================================================= -->
+  <nav class="utility-controls" aria-label="Presentation Controls">
+    <!-- Close Curtains / Replay Button (visible after reveal) -->
+    <button
+      id="resetBtn"
+      type="button"
+      class="glass-btn is-hidden"
+      title="Close Curtains"
+      aria-label="Close Curtains and Replay"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+        <path d="M3 3v5h5"></path>
+      </svg>
+      <span>Close Curtains</span>
+    </button>
+
+    <!-- Mute / Unmute Audio Toggle -->
+    <button
+      id="muteBtn"
+      type="button"
+      class="glass-btn"
+      title="Mute or Unmute Sound"
+      aria-label="Mute or Unmute Sound"
+      aria-pressed="false"
+    >
+      <svg id="iconSoundOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>
+      <svg id="iconSoundOff" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+      </svg>
+    </button>
+
+    <!-- Fullscreen Presentation Toggle -->
+    <button
+      id="fullscreenBtn"
+      type="button"
+      class="glass-btn"
+      title="Toggle Fullscreen"
+      aria-label="Toggle Fullscreen"
+    >
+      <svg id="iconFsEnter" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <polyline points="9 21 3 21 3 15"></polyline>
+        <line x1="21" y1="3" x2="14" y2="10"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+      <svg id="iconFsExit" class="hidden" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 14 10 14 10 20"></polyline>
+        <polyline points="20 10 14 10 14 4"></polyline>
+        <line x1="14" y1="10" x2="21" y2="3"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Subtle Status Toast -->
+  <div id="stageToast" class="stage-toast" role="status" aria-live="polite"></div>
+
+  <!-- =======================================================================
+       INTERACTIVE CURTAIN PHYSICS, WEB AUDIO SYNTHESIS & PARTICLE ENGINE
+       ======================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---------------------------------------------------------------------
+         DOM REFERENCES & STATE
+         --------------------------------------------------------------------- */
+      const stageEl = document.getElementById('theaterStage');
+      const curtainLeft = document.getElementById('curtainLeft');
+      const curtainRight = document.getElementById('curtainRight');
+      const ropeAnchor = document.getElementById('ropeAnchor');
+      const ropeHitArea = document.getElementById('ropeHitArea');
+      const tasselWrapper = document.getElementById('tasselWrapper');
+      const pullPrompt = document.getElementById('pullPrompt');
+      const pullMeterFill = document.getElementById('pullMeterFill');
+      const revealContent = document.getElementById('revealContent');
+
+      const resetBtn = document.getElementById('resetBtn');
+      const muteBtn = document.getElementById('muteBtn');
+      const iconSoundOn = document.getElementById('iconSoundOn');
+      const iconSoundOff = document.getElementById('iconSoundOff');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      const iconFsEnter = document.getElementById('iconFsEnter');
+      const iconFsExit = document.getElementById('iconFsExit');
+      const stageToast = document.getElementById('stageToast');
+
+      const ambientCanvas = document.getElementById('ambient-canvas');
+      const ambientCtx = ambientCanvas.getContext('2d');
+      const celebrationCanvas = document.getElementById('celebration-canvas');
+      const celebrationCtx = celebrationCanvas.getContext('2d');
+
+      const state = {
+        isOpen: false,
+        isAnimating: false,
+        isDragging: false,
+        isMuted: false,
+        pointerId: null,
+        startY: 0,
+        startX: 0,
+        startTime: 0,
+        currentPullY: 0,
+        currentTilt: 0,
+        maxMovedDist: 0,
+        toastTimer: null
+      };
+
+      /* ---------------------------------------------------------------------
+         TOAST NOTIFICATION HELPER
+         --------------------------------------------------------------------- */
+      function showToast(message) {
+        if (state.toastTimer) clearTimeout(state.toastTimer);
+        stageToast.textContent = message;
+        stageToast.classList.add('is-visible');
+        state.toastTimer = setTimeout(() => {
+          stageToast.classList.remove('is-visible');
+        }, 2200);
+      }
+
+      /* ---------------------------------------------------------------------
+         BUILT-IN WEB AUDIO API THEATRICAL SOUND ENGINE (ZERO EXTERNAL FILES)
+         --------------------------------------------------------------------- */
+      const SoundEngine = {
+        ctx: null,
+        masterGain: null,
+
+        /**
+         * Initializes or resumes AudioContext on the first user gesture
+         */
+        init() {
+          try {
+            if (!this.ctx) {
+              const AudioCtx = window.AudioContext || window.webkitAudioContext;
+              if (!AudioCtx) return false;
+              this.ctx = new AudioCtx();
+              this.masterGain = this.ctx.createGain();
+              this.masterGain.gain.value = state.isMuted ? 0 : 0.8;
+              this.masterGain.connect(this.ctx.destination);
+            }
+            if (this.ctx.state === 'suspended') {
+              this.ctx.resume();
+            }
+            return true;
+          } catch (err) {
+            console.warn('Web Audio unavailable:', err);
+            return false;
+          }
+        },
+
+        setMuted(muted) {
+          if (this.masterGain && this.ctx) {
+            this.masterGain.gain.setTargetAtTime(muted ? 0 : 0.8, this.ctx.currentTime, 0.04);
+          }
+        },
+
+        /**
+         * Generates warm pink-filtered noise for realistic heavy velvet drape movement
+         */
+        createVelvetNoiseBuffer(durationSec) {
+          const sampleRate = this.ctx.sampleRate;
+          const length = Math.floor(sampleRate * durationSec);
+          const buffer = this.ctx.createBuffer(2, length, sampleRate);
+          for (let ch = 0; ch < 2; ch++) {
+            const data = buffer.getChannelData(ch);
+            let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+            for (let i = 0; i < length; i++) {
+              const white = Math.random() * 2 - 1;
+              b0 = 0.99886 * b0 + white * 0.0555179;
+              b1 = 0.99332 * b1 + white * 0.0750759;
+              b2 = 0.96900 * b2 + white * 0.1538520;
+              b3 = 0.86650 * b3 + white * 0.3104856;
+              b4 = 0.55000 * b4 + white * 0.5329522;
+              b5 = -0.7616 * b5 - white * 0.0168980;
+              data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.048;
+              b6 = white * 0.115926;
+            }
+          }
+          return buffer;
+        },
+
+        /**
+         * Grand Opening Soundscape:
+         * 1) Soft velvet curtain whoosh
+         * 2) Warm triumphant orchestral major-9th fanfare swell
+         * 3) Shimmering ascending golden chime arpeggio
+         */
+        playGrandReveal() {
+          if (state.isMuted || !this.init()) return;
+          try {
+            const now = this.ctx.currentTime;
+
+            // 1. Velvet Curtain Whoosh
+            const noiseSrc = this.ctx.createBufferSource();
+            noiseSrc.buffer = this.createVelvetNoiseBuffer(2.15);
+
+            const bandpass = this.ctx.createBiquadFilter();
+            bandpass.type = 'bandpass';
+            bandpass.frequency.setValueAtTime(150, now);
+            bandpass.frequency.exponentialRampToValueAtTime(900, now + 0.58);
+            bandpass.frequency.exponentialRampToValueAtTime(240, now + 1.95);
+            bandpass.Q.value = 1.05;
+
+            const whooshGain = this.ctx.createGain();
+            whooshGain.gain.setValueAtTime(0.001, now);
+            whooshGain.gain.linearRampToValueAtTime(0.46, now + 0.36);
+            whooshGain.gain.exponentialRampToValueAtTime(0.001, now + 2.05);
+
+            noiseSrc.connect(bandpass);
+            bandpass.connect(whooshGain);
+            whooshGain.connect(this.masterGain);
+            noiseSrc.start(now);
+            noiseSrc.stop(now + 2.1);
+
+            // 2. Triumphant Orchestral Fanfare Swell (Warm C Major 9)
+            const fanfareFreqs = [130.81, 196.00, 261.63, 329.63, 392.00, 493.88, 587.33];
+            const chordFilter = this.ctx.createBiquadFilter();
+            chordFilter.type = 'lowpass';
+            chordFilter.frequency.setValueAtTime(260, now + 0.14);
+            chordFilter.frequency.exponentialRampToValueAtTime(2700, now + 1.35);
+            chordFilter.frequency.exponentialRampToValueAtTime(920, now + 4.5);
+            chordFilter.Q.value = 0.85;
+
+            const chordGain = this.ctx.createGain();
+            chordGain.gain.setValueAtTime(0.0001, now + 0.12);
+            chordGain.gain.linearRampToValueAtTime(0.25, now + 0.92);
+            chordGain.gain.exponentialRampToValueAtTime(0.0008, now + 4.9);
+
+            chordFilter.connect(chordGain);
+            chordGain.connect(this.masterGain);
+
+            fanfareFreqs.forEach((freq, idx) => {
+              [-5.5, 5.5].forEach((detuneCents) => {
+                const osc = this.ctx.createOscillator();
+                osc.type = idx < 2 ? 'triangle' : 'sawtooth';
+                osc.frequency.setValueAtTime(freq, now + 0.14);
+                osc.detune.setValueAtTime(detuneCents, now + 0.14);
+
+                const voiceGain = this.ctx.createGain();
+                voiceGain.gain.value = idx < 2 ? 0.24 : 0.11;
+
+                osc.connect(voiceGain);
+                voiceGain.connect(chordFilter);
+                osc.start(now + 0.14);
+                osc.stop(now + 5.0);
+              });
+            });
+
+            // 3. Ascending Golden Chime / Harp Shimmer
+            const chimeNotes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1174.66, 1318.51, 1567.98, 2093.00];
+            chimeNotes.forEach((freq, i) => {
+              const t = now + 0.36 + i * 0.082;
+              const fundamental = this.ctx.createOscillator();
+              const overtone = this.ctx.createOscillator();
+              const chimeGain = this.ctx.createGain();
+
+              fundamental.type = 'sine';
+              fundamental.frequency.setValueAtTime(freq, t);
+
+              overtone.type = 'triangle';
+              overtone.frequency.setValueAtTime(freq * 2, t);
+
+              const overtoneGain = this.ctx.createGain();
+              overtoneGain.gain.value = 0.2;
+
+              chimeGain.gain.setValueAtTime(0.0001, t);
+              chimeGain.gain.linearRampToValueAtTime(0.095, t + 0.02);
+              chimeGain.gain.exponentialRampToValueAtTime(0.0005, t + 2.15);
+
+              fundamental.connect(chimeGain);
+              overtone.connect(overtoneGain);
+              overtoneGain.connect(chimeGain);
+              chimeGain.connect(this.masterGain);
+
+              fundamental.start(t);
+              overtone.start(t);
+              fundamental.stop(t + 2.25);
+              overtone.stop(t + 2.25);
+            });
+          } catch (err) {
+            console.warn('Reveal audio failed:', err);
+          }
+        },
+
+        /**
+         * Soft velvet closing sound when replaying
+         */
+        playCurtainClose() {
+          if (state.isMuted || !this.init()) return;
+          try {
+            const now = this.ctx.currentTime;
+            const noiseSrc = this.ctx.createBufferSource();
+            noiseSrc.buffer = this.createVelvetNoiseBuffer(1.2);
+
+            const lp = this.ctx.createBiquadFilter();
+            lp.type = 'lowpass';
+            lp.frequency.setValueAtTime(620, now);
+            lp.frequency.exponentialRampToValueAtTime(150, now + 1.1);
+
+            const gain = this.ctx.createGain();
+            gain.gain.setValueAtTime(0.001, now);
+            gain.gain.linearRampToValueAtTime(0.24, now + 0.24);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.15);
+
+            noiseSrc.connect(lp);
+            lp.connect(gain);
+            gain.connect(this.masterGain);
+
+            noiseSrc.start(now);
+            noiseSrc.stop(now + 1.2);
+          } catch (err) {
+            console.warn('Close audio failed:', err);
+          }
+        }
+      };
+
+      /* ---------------------------------------------------------------------
+         60FPS HTML5 CANVAS PARTICLE SYSTEM (GOLD DUST + SPARKLE/CONFETTI BURST)
+         --------------------------------------------------------------------- */
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      const dustMotes = [];
+      const confettiParticles = [];
+      const sparkleParticles = [];
+
+      const CONFETTI_PALETTE = [
+        '#fff8df',
+        '#f8d47c',
+        '#e5b142',
+        '#c78d20',
+        '#ffd984',
+        '#ba1428'
+      ];
+
+      function resizeCanvases() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        [ambientCanvas, celebrationCanvas].forEach((canvas) => {
+          canvas.width = Math.floor(width * dpr);
+          canvas.height = Math.floor(height * dpr);
+        });
+
+        ambientCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        celebrationCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function initAmbientDust() {
+        dustMotes.length = 0;
+        const count = width < 640 ? 34 : 58;
+        for (let i = 0; i < count; i++) {
+          dustMotes.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: 0.8 + Math.random() * 2.2,
+            speedY: -(0.14 + Math.random() * 0.35),
+            driftAmp: 0.25 + Math.random() * 0.65,
+            phase: Math.random() * Math.PI * 2,
+            alphaBase: 0.22 + Math.random() * 0.56
+          });
+        }
+      }
+
+      /**
+       * Launches twin side confetti cannons, overhead shower, and radial golden star sparkles
+       */
+      function triggerCelebrationBurst() {
+        const isCompact = width < 640 || height < 520;
+        const confettiCount = isCompact ? 88 : 150;
+        const sparkleCount = isCompact ? 38 : 66;
+
+        for (let i = 0; i < confettiCount; i++) {
+          const origin = i % 3;
+          let startX, startY, vx, vy;
+
+          if (origin === 0) {
+            startX = width * 0.14;
+            startY = height * 0.58;
+            const angle = -Math.PI / 3 + (Math.random() - 0.5) * 0.9;
+            const speed = (isCompact ? 6.5 : 10) + Math.random() * 9.5;
+            vx = Math.cos(angle) * speed;
+            vy = Math.sin(angle) * speed - 2;
+          } else if (origin === 1) {
+            startX = width * 0.86;
+            startY = height * 0.58;
+            const angle = -Math.PI * (2 / 3) + (Math.random() - 0.5) * 0.9;
+            const speed = (isCompact ? 6.5 : 10) + Math.random() * 9.5;
+            vx = Math.cos(angle) * speed;
+            vy = Math.sin(angle) * speed - 2;
+          } else {
+            startX = width * (0.14 + Math.random() * 0.72);
+            startY = -12 - Math.random() * 60;
+            vx = (Math.random() - 0.5) * 3.4;
+            vy = 1.6 + Math.random() * 3.4;
+          }
+
+          confettiParticles.push({
+            x: startX,
+            y: startY,
+            vx,
+            vy,
+            sizeW: 6 + Math.random() * 7,
+            sizeH: 4 + Math.random() * 5,
+            color: CONFETTI_PALETTE[Math.floor(Math.random() * CONFETTI_PALETTE.length)],
+            rotation: Math.random() * Math.PI * 2,
+            rotationSpeed: (Math.random() - 0.5) * 0.18,
+            tiltPhase: Math.random() * Math.PI * 2,
+            tiltSpeed: 0.08 + Math.random() * 0.1,
+            gravity: 0.11 + Math.random() * 0.07,
+            drag: 0.985,
+            alpha: 1,
+            life: 0,
+            maxLife: 240 + Math.random() * 140
+          });
+        }
+
+        for (let i = 0; i < sparkleCount; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1.8 + Math.random() * (isCompact ? 6.2 : 10.5);
+          sparkleParticles.push({
+            x: width * 0.5 + (Math.random() - 0.5) * 60,
+            y: height * 0.48 + (Math.random() - 0.5) * 40,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 0.7,
+            radius: 2 + Math.random() * 4.5,
+            alpha: 1,
+            decay: 0.01 + Math.random() * 0.012,
+            twinklePhase: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function drawFourPointStar(ctx, x, y, radius, alpha) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.fillStyle = `rgba(255, 245, 204, ${alpha})`;
+        ctx.shadowColor = 'rgba(248, 212, 124, 0.92)';
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          const angle = (i * Math.PI) / 2;
+          const nextAngle = angle + Math.PI / 4;
+          ctx.lineTo(Math.cos(angle) * radius * 2.1, Math.sin(angle) * radius * 2.1);
+          ctx.lineTo(Math.cos(nextAngle) * radius * 0.45, Math.sin(nextAngle) * radius * 0.45);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function animateParticles(time) {
+        // Render floating golden dust motes
+        ambientCtx.clearRect(0, 0, width, height);
+        const tSec = time * 0.001;
+
+        for (let i = 0; i < dustMotes.length; i++) {
+          const m = dustMotes[i];
+          m.y += m.speedY;
+          m.x += Math.sin(tSec * 0.8 + m.phase) * m.driftAmp;
+
+          if (m.y < -10) {
+            m.y = height + 10;
+            m.x = Math.random() * width;
+          }
+          if (m.x < -10) m.x = width + 10;
+          if (m.x > width + 10) m.x = -10;
+
+          const twinkle = 0.55 + 0.45 * Math.sin(tSec * 2.1 + m.phase);
+          ambientCtx.beginPath();
+          ambientCtx.arc(m.x, m.y, m.radius, 0, Math.PI * 2);
+          ambientCtx.fillStyle = `rgba(252, 224, 146, ${m.alphaBase * twinkle})`;
+          ambientCtx.fill();
+        }
+
+        // Render celebratory confetti and star sparkles when active
+        if (confettiParticles.length > 0 || sparkleParticles.length > 0) {
+          celebrationCtx.clearRect(0, 0, width, height);
+
+          for (let i = confettiParticles.length - 1; i >= 0; i--) {
+            const p = confettiParticles[i];
+            p.life++;
+            p.vx *= p.drag;
+            p.vy = p.vy * p.drag + p.gravity;
+            p.x += p.vx + Math.sin(p.tiltPhase) * 0.65;
+            p.y += p.vy;
+            p.rotation += p.rotationSpeed;
+            p.tiltPhase += p.tiltSpeed;
+
+            if (p.life > p.maxLife * 0.72) {
+              p.alpha = Math.max(0, 1 - (p.life - p.maxLife * 0.72) / (p.maxLife * 0.28));
+            }
+
+            if (p.y > height + 30 || p.life >= p.maxLife || p.alpha <= 0.01) {
+              confettiParticles.splice(i, 1);
+              continue;
+            }
+
+            celebrationCtx.save();
+            celebrationCtx.translate(p.x, p.y);
+            celebrationCtx.rotate(p.rotation);
+            celebrationCtx.scale(1, Math.cos(p.tiltPhase));
+            celebrationCtx.globalAlpha = p.alpha;
+            celebrationCtx.fillStyle = p.color;
+            celebrationCtx.fillRect(-p.sizeW / 2, -p.sizeH / 2, p.sizeW, p.sizeH);
+            celebrationCtx.restore();
+          }
+
+          for (let i = sparkleParticles.length - 1; i >= 0; i--) {
+            const s = sparkleParticles[i];
+            s.vx *= 0.96;
+            s.vy *= 0.96;
+            s.x += s.vx;
+            s.y += s.vy;
+            s.alpha -= s.decay;
+            s.twinklePhase += 0.25;
+
+            if (s.alpha <= 0.02) {
+              sparkleParticles.splice(i, 1);
+              continue;
+            }
+
+            const pulse = 0.65 + 0.35 * Math.sin(s.twinklePhase);
+            drawFourPointStar(celebrationCtx, s.x, s.y, s.radius * pulse, s.alpha);
+          }
+        } else {
+          celebrationCtx.clearRect(0, 0, width, height);
+        }
+
+        requestAnimationFrame(animateParticles);
+      }
+
+      /* ---------------------------------------------------------------------
+         ROPE DRAG PHYSICS & CURTAIN REVEAL CONTROLLER
+         --------------------------------------------------------------------- */
+
+      /**
+       * Adaptive downward pull threshold for desktop, mobile portrait, and mobile landscape
+       */
+      function getPullThreshold() {
+        return Math.min(125, Math.max(68, Math.round(window.innerHeight * 0.18)));
+      }
+
+      /**
+       * Proportional tactile feedback as user drags the golden rope downward
+       */
+      function applyManualPullVisuals(pullY, tiltDeg) {
+        const threshold = getPullThreshold();
+        const progress = Math.min(1, Math.max(0, pullY / threshold));
+
+        // Stretch/move rope downward with subtle pendulum tilt
+        ropeAnchor.style.transform = `translate3d(0, ${pullY.toFixed(1)}px, 0) rotate(${tiltDeg.toFixed(2)}deg)`;
+        tasselWrapper.style.transform = `rotate(${(-tiltDeg * 1.4).toFixed(2)}deg)`;
+        pullMeterFill.style.width = `${Math.round(progress * 100)}%`;
+
+        // Peek curtains open proportionally to pull progress
+        const peekVw = progress * 16.5;
+        const squeezeX = 1 - progress * 0.08;
+        curtainLeft.style.transform = `translate3d(-${peekVw.toFixed(2)}vw, 0, 0) scaleX(${squeezeX.toFixed(4)})`;
+        curtainRight.style.transform = `translate3d(${peekVw.toFixed(2)}vw, 0, 0) scaleX(${squeezeX.toFixed(4)})`;
+
+        // Gentle teaser glow of the center batch name behind the parting seam
+        if (progress > 0.1) {
+          revealContent.style.transition = 'none';
+          revealContent.style.opacity = (progress * 0.4).toFixed(3);
+          revealContent.style.transform = `scale(${(0.84 + progress * 0.06).toFixed(3)}) translateY(${(22 - progress * 10).toFixed(1)}px)`;
+          revealContent.style.filter = `blur(${(8 - progress * 4).toFixed(1)}px)`;
+        }
+      }
+
+      /**
+       * Elastic spring-back when rope is released before reaching the threshold
+       */
+      function springBack() {
+        state.isDragging = false;
+        state.currentPullY = 0;
+        state.currentTilt = 0;
+
+        ropeAnchor.classList.remove('is-dragging');
+        ropeAnchor.classList.add('spring-back');
+        ropeAnchor.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
+        tasselWrapper.style.transform = '';
+        pullMeterFill.style.width = '0%';
+
+        curtainLeft.classList.add('animating-spring');
+        curtainRight.classList.add('animating-spring');
+        curtainLeft.style.transform = 'translate3d(0, 0, 0) scaleX(1)';
+        curtainRight.style.transform = 'translate3d(0, 0, 0) scaleX(1)';
+
+        revealContent.style.transition = '';
+        revealContent.style.opacity = '';
+        revealContent.style.transform = '';
+        revealContent.style.filter = '';
+
+        setTimeout(() => {
+          ropeAnchor.classList.remove('spring-back');
+          curtainLeft.classList.remove('animating-spring');
+          curtainRight.classList.remove('animating-spring');
+        }, 680);
+      }
+
+      /**
+       * Sweeps the curtains dramatically open and launches audio + confetti celebration
+       */
+      function triggerGrandOpen() {
+        if (state.isOpen) return;
+        state.isOpen = true;
+        state.isDragging = false;
+        state.isAnimating = true;
+
+        // Permanently hide hint & retract rope cleanly out of frame
+        pullPrompt.classList.add('is-hidden');
+        ropeAnchor.classList.remove('is-dragging', 'spring-back', 'auto-pulling');
+        ropeAnchor.classList.add('is-retracted');
+        ropeAnchor.style.transform = 'translate3d(38px, -115px, 0)';
+
+        // Restore smooth CSS reveal transition on batch title
+        revealContent.style.transition = '';
+        revealContent.style.opacity = '';
+        revealContent.style.transform = '';
+        revealContent.style.filter = '';
+
+        curtainLeft.classList.remove('animating-spring', 'animating-close');
+        curtainRight.classList.remove('animating-spring', 'animating-close');
+        curtainLeft.classList.add('animating-open');
+        curtainRight.classList.add('animating-open');
+
+        // Keep lush draped crimson velvet framing edges on both sides
+        const openTranslate = window.innerWidth < 640 ? 44.5 : 42.5;
+        curtainLeft.style.transform = `translate3d(-${openTranslate}vw, 0, 0) scaleX(0.76)`;
+        curtainRight.style.transform = `translate3d(${openTranslate}vw, 0, 0) scaleX(0.76)`;
+
+        stageEl.classList.add('is-open');
+
+        // Trigger built-in sound fanfare and sparkle/confetti burst
+        SoundEngine.playGrandReveal();
+        setTimeout(() => {
+          triggerCelebrationBurst();
+        }, 250);
+
+        // Display replay button once reveal finishes
+        setTimeout(() => {
+          resetBtn.classList.remove('is-hidden');
+          state.isAnimating = false;
+        }, 1200);
+      }
+
+      /**
+       * Click/Tap & Keyboard fallback: smoothly animates pulling the rope down then opens
+       */
+      function triggerAutoPullAndOpen() {
+        if (state.isOpen || state.isAnimating) return;
+        state.isAnimating = true;
+        SoundEngine.init();
+
+        const threshold = getPullThreshold();
+        pullPrompt.classList.add('is-hidden');
+        ropeAnchor.classList.remove('spring-back');
+        ropeAnchor.classList.add('auto-pulling');
+        ropeAnchor.style.transform = `translate3d(0, ${threshold + 16}px, 0)`;
+
+        curtainLeft.classList.add('animating-spring');
+        curtainRight.classList.add('animating-spring');
+        curtainLeft.style.transform = 'translate3d(-10vw, 0, 0) scaleX(0.95)';
+        curtainRight.style.transform = 'translate3d(10vw, 0, 0) scaleX(0.95)';
+
+        setTimeout(() => {
+          triggerGrandOpen();
+        }, 440);
+      }
+
+      /**
+       * Closes the curtains cleanly so the reveal can be replayed anytime
+       */
+      function resetStage() {
+        if (!state.isOpen && !state.isAnimating) return;
+        state.isOpen = false;
+        state.isAnimating = true;
+
+        SoundEngine.playCurtainClose();
+        resetBtn.classList.add('is-hidden');
+        stageEl.classList.remove('is-open');
+
+        curtainLeft.classList.remove('animating-open', 'animating-spring');
+        curtainRight.classList.remove('animating-open', 'animating-spring');
+        curtainLeft.classList.add('animating-close');
+        curtainRight.classList.add('animating-close');
+
+        curtainLeft.style.transform = 'translate3d(0, 0, 0) scaleX(1)';
+        curtainRight.style.transform = 'translate3d(0, 0, 0) scaleX(1)';
+
+        setTimeout(() => {
+          ropeAnchor.classList.remove('is-retracted', 'auto-pulling');
+          ropeAnchor.classList.add('spring-back');
+          ropeAnchor.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
+          tasselWrapper.style.transform = '';
+          pullMeterFill.style.width = '0%';
+          pullPrompt.classList.remove('is-hidden');
+        }, 720);
+
+        setTimeout(() => {
+          curtainLeft.classList.remove('animating-close');
+          curtainRight.classList.remove('animating-close');
+          ropeAnchor.classList.remove('spring-back');
+          state.isAnimating = false;
+        }, 1350);
+      }
+
+      /* ---------------------------------------------------------------------
+         UNIFIED POINTER EVENTS (TOUCH & MOUSE DRAG + TAP FALLBACK)
+         --------------------------------------------------------------------- */
+      // Prevent accidental mobile rubber-band scrolling during touch drag
+      stageEl.addEventListener('touchmove', (e) => {
+        if (state.isDragging) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      ropeHitArea.addEventListener('pointerdown', (e) => {
+        if (state.isOpen || state.isAnimating) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+        SoundEngine.init();
+
+        state.isDragging = true;
+        state.pointerId = e.pointerId;
+        state.startY = e.clientY;
+        state.startX = e.clientX;
+        state.startTime = performance.now();
+        state.currentPullY = 0;
+        state.currentTilt = 0;
+        state.maxMovedDist = 0;
+
+        ropeAnchor.classList.remove('spring-back', 'auto-pulling');
+        ropeAnchor.classList.add('is-dragging');
+        curtainLeft.classList.remove('animating-spring', 'animating-open', 'animating-close');
+        curtainRight.classList.remove('animating-spring', 'animating-open', 'animating-close');
+
+        try {
+          ropeHitArea.setPointerCapture(e.pointerId);
+        } catch (_) {
+          // Safe fallback if capture is unavailable
+        }
+      });
+
+      ropeHitArea.addEventListener('pointermove', (e) => {
+        if (!state.isDragging || e.pointerId !== state.pointerId || state.isOpen) return;
+
+        const rawDeltaY = e.clientY - state.startY;
+        const rawDeltaX = e.clientX - state.startX;
+        const movedDist = Math.hypot(rawDeltaX, rawDeltaY);
+        if (movedDist > state.maxMovedDist) state.maxMovedDist = movedDist;
+
+        if (rawDeltaY > 16) {
+          pullPrompt.classList.add('is-hidden');
+        }
+
+        // Elastic downward pull damping
+        const clampedY = Math.max(0, rawDeltaY);
+        const dampedY = clampedY <= 110
+          ? clampedY * 0.92
+          : 110 * 0.92 + (clampedY - 110) * 0.45;
+
+        const tiltDeg = Math.max(-7.5, Math.min(7.5, -rawDeltaX * 0.045));
+
+        state.currentPullY = dampedY;
+        state.currentTilt = tiltDeg;
+
+        applyManualPullVisuals(dampedY, tiltDeg);
+
+        if (dampedY >= getPullThreshold()) {
+          try {
+            ropeHitArea.releasePointerCapture(e.pointerId);
+          } catch (_) {}
+          triggerGrandOpen();
+        }
+      });
+
+      function handlePointerRelease(e) {
+        if (!state.isDragging || (e.pointerId !== undefined && e.pointerId !== state.pointerId)) return;
+
+        try {
+          if (state.pointerId !== null) {
+            ropeHitArea.releasePointerCapture(state.pointerId);
+          }
+        } catch (_) {}
+
+        const elapsed = performance.now() - state.startTime;
+        const wasQuickTap = state.maxMovedDist < 14 && elapsed < 400;
+
+        if (!state.isOpen) {
+          if (wasQuickTap) {
+            state.isDragging = false;
+            ropeAnchor.classList.remove('is-dragging');
+            triggerAutoPullAndOpen();
+          } else {
+            pullPrompt.classList.remove('is-hidden');
+            springBack();
+          }
+        }
+      }
+
+      ropeHitArea.addEventListener('pointerup', handlePointerRelease);
+      ropeHitArea.addEventListener('pointercancel', handlePointerRelease);
+
+      // Accessible keyboard activation
+      ropeHitArea.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerAutoPullAndOpen();
+        }
+      });
+
+      /* ---------------------------------------------------------------------
+         PRESENTATION CONTROLS (REPLAY, MUTE, FULLSCREEN)
+         --------------------------------------------------------------------- */
+      resetBtn.addEventListener('click', resetStage);
+
+      muteBtn.addEventListener('click', () => {
+        state.isMuted = !state.isMuted;
+        SoundEngine.setMuted(state.isMuted);
+        muteBtn.setAttribute('aria-pressed', String(state.isMuted));
+        iconSoundOn.classList.toggle('hidden', state.isMuted);
+        iconSoundOff.classList.toggle('hidden', !state.isMuted);
+        showToast(state.isMuted ? 'Sound Muted' : 'Sound Enabled');
+      });
+
+      function updateFullscreenIcons() {
+        const isFs = Boolean(
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.msFullscreenElement
+        );
+        iconFsEnter.classList.toggle('hidden', isFs);
+        iconFsExit.classList.toggle('hidden', !isFs);
+      }
+
+      fullscreenBtn.addEventListener('click', async () => {
+        try {
+          const docEl = document.documentElement;
+          const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+          if (!isFs) {
+            if (docEl.requestFullscreen) {
+              await docEl.requestFullscreen();
+            } else if (docEl.webkitRequestFullscreen) {
+              await docEl.webkitRequestFullscreen();
+            } else {
+              showToast('Fullscreen is not supported in this browser');
+            }
+          } else {
+            if (document.exitFullscreen) {
+              await document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              await document.webkitExitFullscreen();
+            }
+          }
+        } catch (_) {
+          showToast('Fullscreen is restricted inside embedded previews');
+        }
+      });
+
+      document.addEventListener('fullscreenchange', updateFullscreenIcons);
+      document.addEventListener('webkitfullscreenchange', updateFullscreenIcons);
+
+      /* ---------------------------------------------------------------------
+         INITIALIZATION & ORIENTATION / RESIZE ADAPTATION
+         --------------------------------------------------------------------- */
+      window.addEventListener('resize', () => {
+        resizeCanvases();
+        initAmbientDust();
+        if (state.isOpen) {
+          const openTranslate = window.innerWidth < 640 ? 44.5 : 42.5;
+          curtainLeft.style.transform = `translate3d(-${openTranslate}vw, 0, 0) scaleX(0.76)`;
+          curtainRight.style.transform = `translate3d(${openTranslate}vw, 0, 0) scaleX(0.76)`;
+        }
+      });
+
+      window.addEventListener('load', () => {
+        resizeCanvases();
+        initAmbientDust();
+        requestAnimationFrame(animateParticles);
+      });
+    })();
+  </script>
+</body>
+</html>
